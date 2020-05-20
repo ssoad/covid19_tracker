@@ -11,6 +11,7 @@ class _loading_screenState extends State<loading_screen> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +21,6 @@ class _loading_screenState extends State<loading_screen> {
           size: 50,
         ),
       ),
-
     );
   }
 }
-
