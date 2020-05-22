@@ -30,6 +30,21 @@ class _Home_ScreenState extends State<Home_Screen> {
           child: Text('COVID-19 Tracker'),
         ),
       ),
+      body: Padding(
+        padding: const EdgeInsets.all(3.0),
+        child: ListView(
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[900],
+                borderRadius: BorderRadius.circular(10),),
+
+              height: 100,
+              width: double.infinity,
+            ),
+          ],
+        )
+      ),
     );
   }
 }

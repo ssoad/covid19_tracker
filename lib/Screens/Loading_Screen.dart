@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'HomeScreen.dart';
+import 'package:covid19_tracker/Networking/Network.dart';
 
 // ignore: camel_case_types
 class loading_screen extends StatefulWidget {
@@ -14,15 +15,13 @@ class loading_screen extends StatefulWidget {
 // ignore: camel_case_types
 class _loading_screenState extends State<loading_screen> {
   // ignore: non_constant_identifier_names
-  void HomePush() async {
+  void getData() async {
     print("HomePushed");
-    var T = await sleep(new Duration(
-      seconds: 20,
-    ));
-
+    Network network = Network('https://coronavirus-19-api.herokuapp.com/countries/bangladesh');
+    var T = await network.getData();
     Navigator.push(context, MaterialPageRoute(builder: (context) {
       return Home_Screen(
-        data: "",
+        data: T,
       );
     }));
   }
@@ -30,7 +29,7 @@ class _loading_screenState extends State<loading_screen> {
   @override
   void initState() {
     super.initState();
-    HomePush();
+    getData();
   }
 
   @override
