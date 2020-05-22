@@ -1,5 +1,5 @@
+import 'package:covid19_tracker/Screens/HomeScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:covid19_tracker/Screens/Loading_Screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(
         accentColor: Colors.grey[800],
       ),
-      home: loading_screen(),
+      home: Home_Screen(),
       );
   }
 }
