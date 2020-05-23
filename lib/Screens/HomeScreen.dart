@@ -4,6 +4,7 @@ import 'package:covid19_tracker/Components/ReUseable.dart';
 import 'package:covid19_tracker/Networking/Network.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:covid19_tracker/Components/chart.dart';
+import 'search.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class Home_Screen extends StatefulWidget {
@@ -17,10 +18,12 @@ class Home_Screen extends StatefulWidget {
 
 // ignore: camel_case_types
 class _Home_ScreenState extends State<Home_Screen> {
+  bool search=false;
+  String countryS;
   Map<String, double> data = new Map();
   void getData() async {
     print("HomePushed");
-    Network network = Network('https://coronavirus-19-api.herokuapp.com/countries/bangladesh');
+    Network network = countryS==null?Network('https://coronavirus-19-api.herokuapp.com/countries/bangladesh'):Network('https://coronavirus-19-api.herokuapp.com/countries/$countryS');
     widget.data = await network.getData();
     UpdateUI(widget.data);
     data.addAll({'Total Case':double.parse(cases),'Total Deaths':double.parse(deaths),'Active':double.parse(active),'Recovered':double.parse(recovered),});
@@ -59,8 +62,33 @@ class _Home_ScreenState extends State<Home_Screen> {
     getData();
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text('COVID-19 Tracker'),
+        actions: <Widget>[
+        new IconButton(icon: new Icon(Icons.search), onPressed:(){
+          setState(() {
+            search=!search;
+          });
+        }),
+    //      Search_screen(),
+        ],
+        title: !search?Text('COVID-19 Tracker'):TextField(
+          onChanged: (value){
+            //print(value);
+            countryS=value;
+          },
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+          enabled: true,
+          decoration: InputDecoration(
+            hintStyle: TextStyle(
+              color: Colors.grey,
+              fontSize: 20,
+            ),
+            hintText: 'Enter Country Name',
+              filled: true,
+              fillColor: Colors.grey[900],
+          ),
         ),
       ),
       body: Padding(
@@ -204,7 +232,8 @@ class _Home_ScreenState extends State<Home_Screen> {
             ),
             Charts(
               data: data,
-            )
+            ),
+
           ],
         ):Center(
           child: SpinKitFadingCircle(
