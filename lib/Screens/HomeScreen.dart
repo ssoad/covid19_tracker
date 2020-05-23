@@ -22,7 +22,6 @@ class _Home_ScreenState extends State<Home_Screen> {
   String countryS;
   Map<String, double> data = new Map();
   void getData() async {
-    print("HomePushed");
     Network network = countryS==null?Network('https://coronavirus-19-api.herokuapp.com/countries/bangladesh'):Network('https://coronavirus-19-api.herokuapp.com/countries/$countryS');
     widget.data = await network.getData();
     UpdateUI(widget.data);
