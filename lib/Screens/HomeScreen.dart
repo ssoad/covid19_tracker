@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:covid19_tracker/Components/ReUseable.dart';
 import 'package:covid19_tracker/Networking/Network.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:covid19_tracker/Components/chart.dart';
 
 // ignore: camel_case_types, must_be_immutable
 class Home_Screen extends StatefulWidget {
@@ -16,12 +17,13 @@ class Home_Screen extends StatefulWidget {
 
 // ignore: camel_case_types
 class _Home_ScreenState extends State<Home_Screen> {
-
+  Map<String, double> data = new Map();
   void getData() async {
     print("HomePushed");
     Network network = Network('https://coronavirus-19-api.herokuapp.com/countries/bangladesh');
     widget.data = await network.getData();
     UpdateUI(widget.data);
+    data.addAll({'Total Case':double.parse(cases),'Total Deaths':double.parse(deaths),'Active':double.parse(active),'Recovered':double.parse(recovered),});
     setState(() {
       UpdateUI(widget.data);
     });
@@ -44,7 +46,6 @@ class _Home_ScreenState extends State<Home_Screen> {
     this.testsPerOneMillion = Data['testsPerOneMillion'].toString();
 
   }
-
   @override
   void initState() {
     super.initState();
@@ -54,6 +55,8 @@ class _Home_ScreenState extends State<Home_Screen> {
 
   @override
   Widget build(BuildContext context) {
+    //data!=null?UpdateUI(widget.data):0;
+    getData();
     return Scaffold(
       appBar: AppBar(
         title: Center(
@@ -116,6 +119,9 @@ class _Home_ScreenState extends State<Home_Screen> {
                               color: Colors.red[300],
                             )
                           ],
+                        ),
+                        SizedBox(
+                          width: 30,
                         ),
                       ],
                     ),
@@ -193,6 +199,12 @@ class _Home_ScreenState extends State<Home_Screen> {
 
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Charts(
+              data: data,
+            )
           ],
         ):Center(
           child: SpinKitFadingCircle(
